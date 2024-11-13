@@ -3,22 +3,20 @@
 export default function Home() {
   const openApp = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault(); // ป้องกันพฤติกรรมปกติของลิงก์
-    const appUrl = "com.awesomeproject.mainactivity";
+    const appUrl = "com.awesomeproject.mainactivity://page";
     const fallbackUrl = "/fallback";
     let appOpened = false;
 
     // ตั้งค่า timeout เพื่อเปลี่ยนไปที่ fallback ถ้าแอปไม่เปิด
     const timeout = setTimeout(() => {
       if (!appOpened) {
+        // ถ้าแอปไม่เปิดให้เปลี่ยนไปที่ fallback
         window.location.href = fallbackUrl;
       }
     }, 2000); // ตั้งเวลาเป็น 2 วินาที หรือปรับได้ตามต้องการ
 
-    // พยายามเปิดแอปโดยใช้ iframe
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = appUrl;
-    document.body.appendChild(iframe);
+    // พยายามเปิดแอปโดยใช้ deep link ผ่าน window.location
+    window.location.href = appUrl;
 
     // ตรวจสอบการเปลี่ยนแปลง visibility หรือ focus ของหน้าเพื่อดูว่าแอปเปิดหรือไม่
     const handlePageChange = () => {
@@ -31,7 +29,6 @@ export default function Home() {
 
     const cleanup = () => {
       clearTimeout(timeout);
-      document.body.removeChild(iframe);
       document.removeEventListener("visibilitychange", handlePageChange);
       window.removeEventListener("blur", handlePageChange);
     };
@@ -39,11 +36,6 @@ export default function Home() {
     // เพิ่ม event listeners
     document.addEventListener("visibilitychange", handlePageChange);
     window.addEventListener("blur", handlePageChange);
-
-    // ทำความสะอาด iframe หลังจากพยายามเปิดแอปแล้ว
-    setTimeout(() => {
-      cleanup();
-    }, 1000); // ลบหลังจาก 1 วินาทีเพื่อทำความสะอาด
   };
 
   return (
