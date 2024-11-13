@@ -3,7 +3,7 @@
 export default function Home() {
   const openApp = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault(); // ป้องกันพฤติกรรมปกติของลิงก์
-    const appUrl = "com.awesomeproject.mainactivity://page";
+    const appUrl = "com.awesomeproject.mainactivity";
     const fallbackUrl = "/fallback";
     let appOpened = false;
 
