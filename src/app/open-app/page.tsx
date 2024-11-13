@@ -1,8 +1,8 @@
-// pages/open-app.js
-"use client"
+// src/app/open-app/page.tsx
+"use client";
 import { useEffect } from 'react';
 
-export function OpenAppLink() {
+export default function OpenAppLink() {
     useEffect(() => {
         // Set a timeout to redirect to fallback if the app isn't installed
         const timeout = setTimeout(() => {
@@ -32,15 +32,13 @@ export function OpenAppLink() {
         };
     }, []);
 
-  return (
-    <div className="text-center py-5">
-      <h1 className="text-xl font-bold mb-3">กำลังเปิดแอป...</h1>
-      <p>
-        หากแอปไม่เปิดอัตโนมัติ{' '}
-        <a href="com.awesomeproject.mainactivity://page" className="text-blue-500 underline">คลิกที่นี่</a>
-      </p>
-    </div>
-  );
+    return (
+        <div className="text-center py-5">
+            <h1 className="text-xl font-bold mb-3">กำลังเปิดแอป...</h1>
+            <p>
+                หากแอปไม่เปิดอัตโนมัติ{' '}
+                <a href="com.awesomeproject.mainactivity://page" className="text-blue-500 underline">คลิกที่นี่</a>
+            </p>
+        </div>
+    );
 }
-
-export default OpenAppLink;

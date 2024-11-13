@@ -1,9 +1,7 @@
-"use client"
+"use client";
 import React from 'react';
 
-interface FallbackPageProps {}
-
-const FallbackPage: React.FC<FallbackPageProps> = () => {
+const FallbackPage: React.FC = () => {
   const handleOpenApp = (url: string, fallbackUrl: string): void => {
     window.location.href = url;
     setTimeout(() => {
@@ -13,9 +11,9 @@ const FallbackPage: React.FC<FallbackPageProps> = () => {
 
   return (
     <div className="text-center py-5">
-      <h1 className="text-xl font-bold mb-3">Download Our App</h1>
-      <p className="mb-1">It looks like you don't have our app installed.</p>
-      <p className="mb-4">Get it from the App Store or Google Play below:</p>
+      <h1 className="text-xl font-bold mb-3">{"Download Our App"}</h1>
+      <p className="mb-1">{"It looks like you don't have our app installed."}</p>
+      <p className="mb-4">{"Get it from the App Store or Google Play below:"}</p>
 
       <div className="mb-4">
         <a 
@@ -27,7 +25,7 @@ const FallbackPage: React.FC<FallbackPageProps> = () => {
           rel="noopener noreferrer"
         >
           <img src="/qrcode_apps.apple.com.webp" alt="Download on the App Store" className="w-36 mx-auto mb-2" />
-          <div className="text-sm">Open in App or Download on App Store</div>
+          <div className="text-sm">{"Open in App or Download on App Store"}</div>
         </a>
       </div>
       
@@ -41,7 +39,7 @@ const FallbackPage: React.FC<FallbackPageProps> = () => {
           rel="noopener noreferrer"
         >
           <img src="/qrcode_play.google.com.webp" alt="Get it on Google Play" className="w-36 mx-auto mb-2" />
-          <div className="text-sm">Open in App or Download on Google Play</div>
+          <div className="text-sm">{"Open in App or Download on Google Play"}</div>
         </a>
       </div>
     </div>
