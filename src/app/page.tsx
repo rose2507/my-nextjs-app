@@ -5,68 +5,48 @@ const Home: React.FC = () => {
   const openApp = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
 
-    const appUrl1 = "com.awesomeproject.mainactivity://page/";
-    const appUrl2 = "com.beverestlife.deeplink://page/";
+    const appUrl = "com.beverestlife.deeplink://page/";
     const fallbackUrl = "/fallback";
     let appOpened = false;
 
-    // Function to attempt to open a deep link
-    const tryDeepLink = (url: string, nextCallback: () => void) => {
-      // Set a longer timeout to allow the app enough time to open
-      const timeout = setTimeout(() => {
-        if (!appOpened) {
-          nextCallback(); // Try the next link or go to fallback if not supported
-        }
-      }, 2000); // Increase the timeout duration as needed
+    // พยายามเปิดแอป
+    window.location.href = appUrl;
 
-      // Attempt to open the app using the deep link
-      window.location.href = url;
+    // ตั้งค่า timeout เพื่อเปลี่ยนเส้นทางไปยัง fallback หากแอปไม่ถูกเปิด
+    const timeout = setTimeout(() => {
+      if (!appOpened) {
+        window.location.href = fallbackUrl;
+      }
+    }, 2000); // ปรับเวลา timeout ตามที่ต้องการ
 
-      // Detect if the page visibility changes (i.e., the app is opened)
-      const handleVisibilityChange = () => {
-        if (document.visibilityState === "hidden") {
-          appOpened = true;
-          clearTimeout(timeout); // Clear the timeout if the app opened
-          cleanup(); // Clean up event listeners
-        }
-      };
-
-      const cleanup = () => {
-        clearTimeout(timeout);
-        document.removeEventListener("visibilitychange", handleVisibilityChange);
-      };
-
-      // Add event listener to detect if the app opened
-      document.addEventListener("visibilitychange", handleVisibilityChange);
+    // ตรวจจับการเปลี่ยนแปลงของ visibility
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        appOpened = true;
+        clearTimeout(timeout); // ล้าง timeout หากแอปเปิดสำเร็จ
+      }
     };
 
-    // Try the first deep link, then the second if the first fails
-    tryDeepLink(appUrl1, () => {
-      tryDeepLink(appUrl2, () => {
-        // If neither deep link opens the app, redirect to the fallback page
-        if (!appOpened) {
-          window.location.href = fallbackUrl;
-        }
-      });
-    });
+    document.addEventListener("visibilitychange", handleVisibilityChange);
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-    <a
-      href="#"
-      onClick={openApp}
-      style={{ color: "red", textDecoration: "underline" }}
-    >
-      คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile)
-    </a>
-    <a
-      href="myapp://example.com"
-      style={{ color: "red", textDecoration: "underline" }}
-    >
-      คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile 2)
-    </a>
-  </div>
+      <a
+        href="com.beverestlife.deeplink://page/"
+        onClick={openApp}
+        style={{ color: "red", textDecoration: "underline" }}
+      >
+        คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile)
+      </a>
+      <a
+        href="myapp://example.com"
+        target="_blank"
+        style={{ color: "red", textDecoration: "underline" }}
+      >
+        คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile 2)
+      </a>
+    </div>
   );
 };
 
