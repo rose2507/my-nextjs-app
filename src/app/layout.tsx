@@ -9,10 +9,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: `Next.js `,
   description: `A statically generated blog example using Next.js and .`,
-//   openGraph: {
-//     images: [HOME_OG_IMAGE_URL],
-//   },
- };
+  //   openGraph: {
+  //     images: [HOME_OG_IMAGE_URL],
+  //   },
+};
 
 export default function RootLayout({
   children,
@@ -54,9 +54,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#000" />
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
-      <body
-        className={cn(inter.className, "dark:bg-slate-900 dark:text-slate-400")}
-      >
+      <body className={cn(inter.className, "bg-white text-slate-900")}>
         <div className="min-h-screen">{children}</div>
       </body>
     </html>
