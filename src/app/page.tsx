@@ -21,22 +21,20 @@ const Home: React.FC = () => {
       // Attempt to open the app using the deep link
       window.location.href = url;
 
-      // Check if the page visibility changes to determine if the app opened
-      const handleVisibilityChange = () => {
-        if (document.visibilityState === "hidden") {
-          appOpened = true;
-          clearTimeout(timeout); // Clear the timeout if the app opened
-          cleanup(); // Clean up event listeners
-        }
+      // Check if the page loses focus to determine if the app opened
+      const handleBlur = () => {
+        appOpened = true;
+        clearTimeout(timeout); // Clear the timeout if the app opened
+        cleanup(); // Clean up event listeners
       };
 
       const cleanup = () => {
         clearTimeout(timeout);
-        document.removeEventListener("visibilitychange", handleVisibilityChange);
+        window.removeEventListener("blur", handleBlur);
       };
 
       // Add event listener to detect if the app opened
-      document.addEventListener("visibilitychange", handleVisibilityChange);
+      window.addEventListener("blur", handleBlur);
     };
 
     // Try the first deep link, then the second if the first fails
