@@ -1,50 +1,51 @@
 "use client";
+import React from "react";
 
-export default function Home() {
-  const openApp = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault(); // ป้องกันพฤติกรรมปกติของลิงก์
+const Home: React.FC = () => {
+  const openApp = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+
     const appUrl1 = "com.awesomeproject.mainactivity://page";
     const appUrl2 = "com.beverestlife.deeplink://page";
     const fallbackUrl = "/fallback";
     let appOpened = false;
 
-    // ฟังก์ชันพยายามเปิด deep link
+    // Function to attempt to open a deep link
     const tryDeepLink = (url: string, nextCallback: () => void) => {
       const timeout = setTimeout(() => {
         if (!appOpened) {
-          nextCallback(); // เรียก deep link ถัดไปหรือไป fallback ถ้าทั้งหมดไม่สำเร็จ
+          nextCallback(); // Try the next link or go to fallback if not supported
         }
-      }, 500); // ตั้ง timeout ให้เหมาะสมตามต้องการ
+      }, 1000); // Adjust timeout as needed
 
-      // พยายามเปิดแอปโดยใช้ deep link ผ่าน window.location
+      // Attempt to open the app using the deep link
       window.location.href = url;
 
-      // ตรวจสอบการเปลี่ยนแปลง visibility หรือ focus ของหน้าเพื่อดูว่าแอปเปิดหรือไม่
-      const handlePageChange = () => {
-        if (document.visibilityState === "hidden" || document.hasFocus() === false) {
+      // Check if the page visibility changes to determine if the app opened
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === "hidden") {
           appOpened = true;
-          clearTimeout(timeout); // ยกเลิก timeout ถ้าแอปเปิดแล้ว
-          cleanup(); // ทำความสะอาด
+          clearTimeout(timeout); // Clear the timeout if the app opened
+          cleanup(); // Clean up event listeners
         }
       };
 
       const cleanup = () => {
         clearTimeout(timeout);
-        document.removeEventListener("visibilitychange", handlePageChange);
-        window.removeEventListener("blur", handlePageChange);
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
       };
 
-      // เพิ่ม event listeners
-      document.addEventListener("visibilitychange", handlePageChange);
-      window.addEventListener("blur", handlePageChange);
+      // Add event listener to detect if the app opened
+      document.addEventListener("visibilitychange", handleVisibilityChange);
     };
 
-    // ลองเปิด deep link อันแรก ถ้าไม่สำเร็จให้ลองอันที่สอง
+    // Try the first deep link, then the second if the first fails
     tryDeepLink(appUrl1, () => {
-      // ถ้าอันแรกไม่สำเร็จ ลองอันที่สอง
       tryDeepLink(appUrl2, () => {
-        // ถ้าอันที่สองไม่สำเร็จ ให้เปลี่ยนไป fallback
-        window.location.href = fallbackUrl;
+        // If neither deep link opens the app, redirect to the fallback page
+        if (!appOpened) {
+          window.location.href = fallbackUrl;
+        }
       });
     });
   };
@@ -60,4 +61,6 @@ export default function Home() {
       </a>
     </div>
   );
-}
+};
+
+export default Home;
