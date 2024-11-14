@@ -5,8 +5,8 @@ const Home: React.FC = () => {
   const openApp = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
 
-    const appUrl1 = "com.awesomeproject.mainactivity://page";
-    const appUrl2 = "com.beverestlife.deeplink://page";
+    const appUrl1 = "com.awesomeproject.mainactivity://page/";
+    const appUrl2 = "com.beverestlife.deeplink://page/";
     const fallbackUrl = "/fallback";
     let appOpened = false;
 
