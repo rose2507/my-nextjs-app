@@ -13,7 +13,7 @@ export default function Home() {
         // ถ้าแอปไม่เปิดให้เปลี่ยนไปที่ fallback
         window.location.href = fallbackUrl;
       }
-    }, 2000); // ตั้งเวลาเป็น 2 วินาที หรือปรับได้ตามต้องการ
+    }, 500); // ตั้งเวลาเป็น ปรับได้ตามต้องการ
 
     // พยายามเปิดแอปโดยใช้ deep link ผ่าน window.location
     window.location.href = appUrl;
