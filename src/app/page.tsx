@@ -39,13 +39,13 @@ const Home: React.FC = () => {
       >
         คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile)
       </a>
-      {/* <a
-        href="myapp://example.com"
+      <a
+        href="com.beverestlife.deeplink://page?data=%7B%22id%22%3A123%2C%22name%22%3A%22John%20Doe%22%2C%22status%22%3A%22active%22%7D"
         target="_blank"
         style={{ color: "red", textDecoration: "underline" }}
       >
-        คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile 2)
-      </a> */}
+        คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile with data)
+      </a>
     </div>
   );
 };
