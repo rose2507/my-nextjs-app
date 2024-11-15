@@ -39,13 +39,13 @@ const Home: React.FC = () => {
       >
         คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile)
       </a>
-      <a
+      {/* <a
         href="myapp://example.com"
         target="_blank"
         style={{ color: "red", textDecoration: "underline" }}
       >
         คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile 2)
-      </a>
+      </a> */}
     </div>
   );
 };
