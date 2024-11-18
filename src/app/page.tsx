@@ -64,7 +64,7 @@ const Home: React.FC = () => {
       },
     };
 
-    return encodeURI(JSON.stringify(exData));
+    return encodeURIComponent(JSON.stringify(exData));
   };
 
   return (
