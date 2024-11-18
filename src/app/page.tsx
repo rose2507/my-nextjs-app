@@ -55,9 +55,10 @@ const Home: React.FC = () => {
         },
         value: {
           appId,
-          deeplink: {
+          deeplink:encodeURIComponent(JSON.stringify({
             testprops: "v1",
-          },
+            testprops2:"props2"
+          }))
         },
         typeKey: "native-app",
         valueType: "deeplink",
