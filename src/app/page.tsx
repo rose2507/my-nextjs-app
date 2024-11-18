@@ -1,6 +1,21 @@
 "use client";
 import React from "react";
 
+const appData = [
+  {
+    appName: "News",
+    appId: "5d305031b6f2ee0117cdfef5",
+  },
+  {
+    appName: "PM 2.5",
+    appId: "60802b5edd40020203f3cf5b",
+  },
+  {
+    appName: "Myworklist",
+    appId: "5e6213890289ad39a0f6aa3c",
+  },
+];
+
 const Home: React.FC = () => {
   const openApp = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -11,25 +26,45 @@ const Home: React.FC = () => {
 
     let appOpened = false;
 
-    // พยายามเปิดแอป
     window.location.href = appUrl;
 
-    // ตั้งค่า timeout เพื่อเปลี่ยนเส้นทางไปยัง fallback หากแอปไม่ถูกเปิด
     const timeout = setTimeout(() => {
       if (!appOpened) {
         window.location.href = fallbackUrl;
       }
-    }, 2000); // ปรับเวลา timeout ตามที่ต้องการ
+    }, 2000);
 
-    // ตรวจจับการเปลี่ยนแปลงของ visibility
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
         appOpened = true;
-        clearTimeout(timeout); // ล้าง timeout หากแอปเปิดสำเร็จ
+        clearTimeout(timeout);
       }
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
+  };
+
+  const uriEncoding = (appId: string): string => {
+    const exData = {
+      props: {
+        toolbar: {
+          barStyle: "dark-content",
+          backgroundColor: "#ffffff",
+          title: "",
+          textColor: "#222222",
+        },
+        value: {
+          appId,
+          deeplink: {
+            testprops: "v1",
+          },
+        },
+        typeKey: "native-app",
+        valueType: "deeplink",
+      },
+    };
+
+    return encodeURI(JSON.stringify(exData));
   };
 
   return (
@@ -43,19 +78,27 @@ const Home: React.FC = () => {
       >
         คลิกที่นี่สำหรับเข้าผ่าน Beverest Life (Mobile)
       </a>
-      <a
-        href="com.beverestlife.deeplink://page?data=%20%7B%22props%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%22toolbar%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22barStyle%22%3A%20%22dark-content%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22backgroundColor%22%3A%20%22%23ffffff%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22title%22%3A%20%22%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22textColor%22%3A%20%22%23222222%22%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%22value%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22appId%22%3A%20%225d305031b6f2ee0117cdfef5%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22itemId%22%3A%20%226711ddcfdf9c0d0012fad9f3%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22deeplink%22%3A%20%22%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%AD%E0%B8%A2%E0%B8%B9%E0%B9%88%E0%B9%83%E0%B8%99%E0%B8%99%E0%B8%B5%E0%B9%89%20%E0%B8%AA%E0%B9%88%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B8%97%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%94%22%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%22typeKey%22%3A%20%22native-app%22%2C%0A%20%20%20%20%20%20%20%20%20%20%22valueType%22%3A%20%22deeplink%22%0A%20%20%20%20%20%20%20%20%7D%0A%7D"
-        onClick={(e) =>
-          openApp(
-            e,
-            "com.beverestlife.deeplink://page?data=%20%7B%22props%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%22toolbar%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22barStyle%22%3A%20%22dark-content%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22backgroundColor%22%3A%20%22%23ffffff%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22title%22%3A%20%22%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22textColor%22%3A%20%22%23222222%22%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%22value%22%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%22appId%22%3A%20%225d305031b6f2ee0117cdfef5%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22itemId%22%3A%20%226711ddcfdf9c0d0012fad9f3%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%22deeplink%22%3A%20%22%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%AD%E0%B8%A2%E0%B8%B9%E0%B9%88%E0%B9%83%E0%B8%99%E0%B8%99%E0%B8%B5%E0%B9%89%20%E0%B8%AA%E0%B9%88%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B8%97%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%94%22%0A%20%20%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20%22typeKey%22%3A%20%22native-app%22%2C%0A%20%20%20%20%20%20%20%20%20%20%22valueType%22%3A%20%22deeplink%22%0A%20%20%20%20%20%20%20%20%7D%0A%7D",
-            "/fallback"
-          )
-        }
-        style={{ color: "red", textDecoration: "underline" }}
-      >
-        คลิกที่ที่นี่สำหรับเข้าผ่าน Beverest Life (News)
-      </a>
+
+      <div className="flex gap-4">
+        {appData.map((app) => (
+          <a
+            key={app.appId}
+            href={`com.beverestlife.deeplink://page?data=${uriEncoding(
+              app.appId
+            )}`}
+            onClick={(e) =>
+              openApp(
+                e,
+                `com.beverestlife.deeplink://page?data=${uriEncoding(app.appId)}`,
+                "/fallback"
+              )
+            }
+            style={{ color: "red", textDecoration: "underline" }}
+          >
+            {app.appName}
+          </a>
+        ))}
+      </div>
     </div>
   );
 };
